@@ -2,6 +2,7 @@
 """
 
 from openpyxl import load_workbook
+from openpyxl.formula import Tokenizer
 from docx import Document
 
 def main():
@@ -22,7 +23,7 @@ def print_to_doc(cell, field, document, last_paragraph):
 	if cell.value:
 		data = str(cell.value)
 	if field == 'Name (First Name)':
-		last_paragraph.add_run('Nominee Information:').bold = True
+		document.add_paragraph().add_run('Nominee Information:').bold = True
 		paragraph = document.add_paragraph('Full Name: ')
 		paragraph.add_run(data)
 		return paragraph
@@ -58,14 +59,18 @@ def print_to_doc(cell, field, document, last_paragraph):
 			last_paragraph.add_run(' ')
 			last_paragraph.add_run(data)
 		return last_paragraph
+	elif "upload" in field.lower():
+		document.add_paragraph()
+		paragraph = document.add_paragraph().add_run(field).bold = True		
+		tok = Tokenizer(data)
+		for t in tok.items:
+			if t.type == "OPERAND":
+				paragraph = document.add_paragraph(t.value[1:len(t.value) - 2])
+				return paragraph
 	else:
 		document.add_paragraph()
-		paragraph = document.add_paragraph().add_run(field).bold = True
-		if data:
-			if cell.hyperlink:
-				paragraph = document.add_paragraph(cell.hyperlink.target)
-			else:
-				paragraph = document.add_paragraph(data)
+		document.add_paragraph().add_run(field).bold = True
+		paragraph = document.add_paragraph(data)
 		return paragraph
 
 def make_doc(row_num, column, award_type, fields, fields_by_award_ws, submissions_ws):
@@ -90,7 +95,6 @@ def make_doc(row_num, column, award_type, fields, fields_by_award_ws, submission
 		file_name += nominator_name
 	file_name += ".docx"
 	document.save(file_name)
-	
 
 if __name__ == '__main__':
 	main();
