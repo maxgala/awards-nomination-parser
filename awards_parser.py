@@ -27,7 +27,7 @@ def print_to_doc(cell, field, document, last_paragraph):
 			last_paragraph = document.add_paragraph().add_run('Public Profile (e.g. LinkedIn, website)').bold = True
 		return last_paragraph
 	if field == 'Name (First Name)':
-		last_paragraph.add_run('Nominee Information:').bold = True
+		document.add_paragraph().add_run('Nominee Information:').bold = True
 		paragraph = document.add_paragraph('Full Name: ')
 		paragraph.add_run(data)
 		return paragraph
@@ -43,8 +43,6 @@ def print_to_doc(cell, field, document, last_paragraph):
 	elif field == 'Name (Last Name)' or field == 'Organization Contact Name (Last Name)' or field == 'Last Name':
 		last_paragraph.add_run(' ')
 		last_paragraph.add_run(data)
-		if field == 'Name (First Name)':
-			document.add_paragraph()
 		return document.add_paragraph()
 	elif field == 'Email' or field == 'Phone Number':
 		last_paragraph.add_run(field)
