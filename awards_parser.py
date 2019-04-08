@@ -37,7 +37,7 @@ def print_to_doc(cell, field, document, last_paragraph):
 		paragraph = document.add_paragraph()
 		paragraph.add_run('Organization Contact Name: ')
 		paragraph.add_run(data)
-		return 
+		return paragraph
 	elif field == 'Name (Last Name)' or field == 'Organization Contact Name (Last Name)':
 		last_paragraph.add_run(' ')
 		last_paragraph.add_run(data)
@@ -94,7 +94,7 @@ def make_doc(row_num, column, award_type, fields, fields_by_award_ws, submission
 	award_type = 'MAX ' + award_type
 	document.add_heading(award_type, level=0)
 	last_paragraph = document.add_paragraph()
-	file_name = "Submissions/"
+	file_name = ""
 	nominator_name = ""
 	
 	for cell in column:
