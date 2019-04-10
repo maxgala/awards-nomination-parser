@@ -94,7 +94,7 @@ def make_doc(row_num, column, award_type, fields, fields_by_award_ws, submission
 	award_type = 'MAX ' + award_type
 	document.add_heading(award_type, level=0)
 	last_paragraph = document.add_paragraph()
-	file_name = ""
+	file_name = "Submissions/" + award_type.replace(" ", "") + "_"
 	nominator_name = ""
 	
 	for cell in column:
